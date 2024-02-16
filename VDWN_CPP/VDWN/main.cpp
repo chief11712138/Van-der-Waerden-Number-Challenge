@@ -1,5 +1,10 @@
 #include <iostream>
 #include <vector>
+#include <fstream>
+#include <unordered_map>
+#include <string>
+#include <sstream>
+#include <functional>
 
 // Global variables
 int maxVal = 0;
@@ -44,7 +49,8 @@ void run(int k, int j, int index, int x) {
         return t[n - j];
         };
 
-    std::cout << maxVal << std::endl;
+    // #DEBUG
+    // std::cout << maxVal << std::endl;
 
     if (zeroCount > j) return;
     if (index > 0 && x > 0) {
@@ -76,8 +82,46 @@ void run(int k, int j, int index, int x) {
     }
 }
 
+// Function to parse user inputs into an integer array
+std::vector<int> parseUserInputs() {
+    std::vector<int> inputs;
+    std::string line;
+    std::cout << "Enter four integers separated by spaces (e.g., 1 2 3 4):" << std::endl;
+
+    // Read the entire line
+    std::getline(std::cin, line);
+    std::istringstream iss(line);
+    int number;
+    while (iss >> number) {
+        inputs.push_back(number);
+    }
+
+    // Check if exactly four integers were entered
+    if (inputs.size() != 4) {
+        std::cout << "Invalid input. Please enter exactly four integers." << std::endl;
+        inputs.clear(); // Clear the vector to indicate an error or request for re-entry
+    }
+
+    return inputs;
+}
+
+
 int main() {
-    run(4, 2, 0, 0);
-    std::cout << maxVal + 1 << std::endl;
+    std::ofstream outFile("output.txt"); // Create an ofstream object for output
+    if (!outFile.is_open()) {
+        std::cerr << "Failed to open output file." << std::endl;
+        return 1;
+    }
+
+    // Redirect the output from std::cout to the file
+    // Only 4 digits acceptable
+    // Formate: number1 number2 number3 number4
+    // Enter 'S' to stop
+    std::vector<int> userInputs = parseUserInputs();
+    run(userInputs[0], userInputs[1], userInputs[2], userInputs[3]);
+    outFile << "W£¨" << userInputs[0] << ", " << userInputs[1] << ", " << userInputs[2] << ", " << userInputs[3] << "): " << maxVal + 1 << std::endl;
+
+    system("notepad.exe output.txt"); // Open the output file
+    outFile.close(); // Close the file
     return 0;
 }
