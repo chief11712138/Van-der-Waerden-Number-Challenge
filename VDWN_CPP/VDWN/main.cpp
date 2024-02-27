@@ -5,7 +5,7 @@
 int maxVal = 0;
 int zeroCount = 0;
 std::vector<int> c(1000, 0);
-std::vector<int> t = { 3, 4 };
+std::vector<int> t = { 3, 3 };
 
 // Function to check if all elements in a list are equal
 bool all_equal(const std::vector<int>& lst) {
@@ -44,7 +44,7 @@ void run(int k, int j, int index, int x) {
         return t[n - j];
         };
 
-    std::cout << maxVal << std::endl;
+    // std::cout << "Curr max: " << maxVal + 1 << std::endl;
 
     if (zeroCount > j) return;
     if (index > 0 && x > 0) {
@@ -76,8 +76,28 @@ void run(int k, int j, int index, int x) {
     }
 }
 
+void metaRun(int k, int j, int index, int x) {
+    maxVal = 0;
+    zeroCount = 0;
+    run(k, j, index, x);
+    std::cout << "W(" << k << ";";
+    for (int i = 0; i < j; i++) {
+        std::cout << "2,";
+    }
+    for (int i=0; i < t.size(); i++) {
+        std::cout << t[i];
+        if (i < t.size() - 1) {
+            std::cout << ",";
+        }
+    }
+    std::cout << ") = " << maxVal + 1 << std::endl;
+}
+
 int main() {
-    run(4, 2, 0, 0);
-    std::cout << maxVal + 1 << std::endl;
+    for (int k = 2; k <= 21; k++) {
+      int j = k - t.size();
+      metaRun(k, j, 0, 0);
+    }
+
     return 0;
 }
