@@ -8,10 +8,8 @@ std::vector<int> c(1000, 0);
 std::vector<int> t = { 3, 3 };
 
 // Function to check if all elements in a list are equal
-bool all_equal(const std::vector<int>& lst, int j, int k) {
-    if(j > lst.size())
-        return false;
-    for (int i = j; i < lst.size() && i < k; ++i) {
+bool all_equal(const std::vector<int>& lst) {
+    for (int i = 0; i < lst.size(); ++i) {
         if (lst[i] != lst[0]) {
             return false;
         }
@@ -63,7 +61,7 @@ void run(int k, int j, int index, int x) {
         c[index + 1] = i;
         run(k, j, index + 1, i);
         if (i == 0) zeroCount -= 1;
-        if (i > 0 && all_equal(t, j ,k)) {
+        if (i > 0 && all_equal(t)) {
             if (index <= j + (i - 1) * (t[0] - 1) + 1) {
                 bool any_break = false;
                 for (int l = 1; l <= index; ++l) {
